@@ -1,4 +1,5 @@
 import pyglet
+from pyglet.window import key
 from game import people
 from game import physicalobject
 from game import music
@@ -19,6 +20,9 @@ person = pyglet.resource.image("test-person.png")
 
 #grab music
 theme = pyglet.resource.media("death.wav")
+
+#grab effect sounds
+boom = pyglet.resource.media("8bit_bomb_explosion.wav")
 
 #start music
 music.playMusic(theme)
@@ -77,6 +81,13 @@ def on_draw():
     #draw text
     score_label.draw()
     game_label.draw()
+
+@game_window.event
+def on_key_press(symbol, modifiers):
+    if symbol == key.B:
+        print("boom")
+        boom.play()
+        # TODO: fix weird error thrown when you spam B; prob with some sort of timeout
 
 #makes sure event loop is only entered if this is the executed file
 if __name__ == '__main__':
