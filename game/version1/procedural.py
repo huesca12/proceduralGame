@@ -46,6 +46,9 @@ player = player.Player(img=testplayer, x=400, y=300,
 floor = pyglet.sprite.Sprite(img=ground, x=0, y=0, batch=main_batch)
 peopleList = people.spawn(4,person,main_batch)
 
+#make player an event handler
+game_window.push_handlers(player)
+
 #make player into list of itself to concatenate into game_objects module; they
 #must all be an instance of or child of PhysicalObject
 game_objects = peopleList + [player]

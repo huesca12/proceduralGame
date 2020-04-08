@@ -39,6 +39,8 @@ class Player(physicalobject.PhysicalObject):
         #run the update function on itself from procedural.py
         super(Player, self).update(dt)
 
+        print(self.keys)
+
         #motion handling
         #if self.keys['up']:
         #    if self.keys[]
