@@ -50,7 +50,7 @@ peopleList = people.spawn(4,person,main_batch)
 game_objects = peopleList + [player]
 
 #get some labels going; add to main batch
-score_label = pyglet.text.Label(text="Casulaties: 0", x=10, y=460)
+score_label = pyglet.text.Label(text="Casualties: 0", x=10, y=460)
 game_label = pyglet.text.Label(text="Politically Inappropriate Pre-Release",
                                 x=game_window.width//2,y=game_window.height//2,
                                 anchor_x='center')
