@@ -1,7 +1,7 @@
 from . import physicalobject
 from pyglet.window import key
 
-thrust = 150.0
+thrust = 75.0
 
 class Player(physicalobject.PhysicalObject):
 
@@ -18,7 +18,7 @@ class Player(physicalobject.PhysicalObject):
     #player movement event handling
     #note that self is being passed to access the keys from the constructor
     def on_key_press(self, symbol, modifiers):
-        if symbol == keys.UP:
+        if symbol == key.UP:
             self.keys['up'] = True
         elif symbol == key.DOWN:
             self.keys['down'] = True
@@ -37,14 +37,39 @@ class Player(physicalobject.PhysicalObject):
         elif symbol == key.RIGHT:
             self.keys['right'] = False
 
+        self.velocity_x = 0
+        self.velocity_y = 0
+
+
     #update function for movement
     #note once again that dt and self are being accessed
     def update(self, dt):
         #run the update function on itself from procedural.py
         super(Player, self).update(dt)
 
-        #print(self.keys)
-
         #motion handling
-        #if self.keys['up']:
-        #    if self.keys[]
+        if self.keys['up']:
+            if self.keys['left']:
+                self.velocity_x = -thrust
+                self.velocity_y = thrust
+            elif self.keys['right']:
+                self.velocity_x = thrust
+                self.velocity_y = thrust
+            else:
+                self.velocity_y = thrust
+
+        if self.keys['down']:
+            if self.keys['left']:
+                self.velocity_x = -thrust
+                self.velocity_y = -thrust
+            elif self.keys['right']:
+                self.velocity_x = thrust
+                self.velocity_y = -thrust
+            else:
+                self.velocity_y = -thrust
+
+        if self.keys['left']:
+            self.velocity_x = -thrust
+
+        if self.keys['right']:
+            self.velocity_x = thrust
