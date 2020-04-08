@@ -1,4 +1,5 @@
 from . import physicalobject
+from pyglet.window import key
 
 thrust = 150.0
 
@@ -8,13 +9,16 @@ class Player(physicalobject.PhysicalObject):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        #handler thing
+        self.key_handler = key.KeyStateHandler()
+
         #dictionary of key states
         self.keys = dict(left=False, right=False, up=False, down=False)
 
     #player movement event handling
     #note that self is being passed to access the keys from the constructor
     def on_key_press(self, symbol, modifiers):
-        if symbol == key.UP:
+        if symbol == keys.UP:
             self.keys['up'] = True
         elif symbol == key.DOWN:
             self.keys['down'] = True
@@ -39,7 +43,7 @@ class Player(physicalobject.PhysicalObject):
         #run the update function on itself from procedural.py
         super(Player, self).update(dt)
 
-        print(self.keys)
+        #print(self.keys)
 
         #motion handling
         #if self.keys['up']:

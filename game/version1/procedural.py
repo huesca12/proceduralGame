@@ -41,17 +41,17 @@ center_image(testplayer)
 #which is child of Sprite to access motion styff
 #physicalobject.PhysicalObject(etc.) --> make player Player object
 #which is child of PhysicalObject to access player control
-player = player.Player(img=testplayer, x=400, y=300,
+terrorist = player.Player(img=testplayer, x=400, y=300,
                                        batch=main_batch)
 floor = pyglet.sprite.Sprite(img=ground, x=0, y=0, batch=main_batch)
 peopleList = people.spawn(4,person,main_batch)
 
-#make player an event handler
-game_window.push_handlers(player)
+#game_window handles events
+game_window.push_handlers(terrorist)
 
 #make player into list of itself to concatenate into game_objects module; they
 #must all be an instance of or child of PhysicalObject
-game_objects = peopleList + [player]
+game_objects = peopleList + [terrorist]
 
 #get some labels going; add to main batch
 score_label = pyglet.text.Label(text="Casualties: 0", x=10, y=460)
@@ -86,13 +86,13 @@ def on_draw():
     score_label.draw()
     game_label.draw()
 
-#key press event manager
-@game_window.event
+#key press event manager for music
 def on_key_press(symbol, modifiers):
     if symbol == key.B:
         print("boom")
         boom.play()
         # TODO: fix weird error thrown when you spam B; prob with some sort of timeout
+game_window.push_handlers(on_key_press)
 
 #makes sure event loop is only entered if this is the executed file
 if __name__ == '__main__':
