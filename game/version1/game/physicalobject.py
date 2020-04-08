@@ -13,6 +13,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         self.velocity_x, self.velocity_y = 0.0, 0.0
 
     #update every frame; dt is a value used to account for lag in drawing
+    #dt comes from the __main__ function in procedural.py (schedule_interval)
     def update(self, dt):
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt

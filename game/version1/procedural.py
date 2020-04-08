@@ -3,6 +3,7 @@ from pyglet.window import key
 from game import people
 from game import physicalobject
 from game import music
+from game import player
 #make game window
 game_window = pyglet.window.Window(800,600)
 #define where to find resources
@@ -40,7 +41,7 @@ center_image(testplayer)
 #which is child of Sprite to access motion styff
 #physicalobject.PhysicalObject(etc.) --> make player Player object
 #which is child of PhysicalObject to access player control
-player = physicalobject.PhysicalObject(img=testplayer, x=400, y=300,
+player = player.Player(img=testplayer, x=400, y=300,
                                        batch=main_batch)
 floor = pyglet.sprite.Sprite(img=ground, x=0, y=0, batch=main_batch)
 peopleList = people.spawn(4,person,main_batch)
@@ -82,6 +83,7 @@ def on_draw():
     score_label.draw()
     game_label.draw()
 
+#key press event manager
 @game_window.event
 def on_key_press(symbol, modifiers):
     if symbol == key.B:
