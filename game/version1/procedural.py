@@ -16,8 +16,9 @@ main_batch = pyglet.graphics.Batch()
 
 #create a resource object from corresponding image
 menu = pyglet.resource.image("menu.png")
-ground = pyglet.resource.image("groundProcedural.png")
+ground = pyglet.resource.image("floor.png")
 testplayer = pyglet.resource.image("player.png")
+flipplayer = pyglet.resource.image("player-flip.png")
 
 #grab music
 theme = pyglet.resource.media("death.wav")
@@ -33,6 +34,7 @@ def center_image(image):
 
 #center player
 center_image(testplayer)
+center_image(flipplayer)
 
 #make stuff drawable sprites
 #player should be instance of Sprite subclass --> make player PhysicalObject
@@ -45,14 +47,19 @@ terrorist = player.Player(img=testplayer, x=400, y=300,
                                        batch=main_batch)
 
 #game_window handles events
-game_window.push_handlers(terrorist)
+
 
 #make player into list of itself to concatenate into game_objects module; they
 #must all be an instance of or child of PhysicalObject
 game_objects = [terrorist]
 
 #get some labels going; add to main batch
-score_label = pyglet.text.Label(text="Days: " + str(days), x=10, y=460)
+score_label = pyglet.text.Label(text="Days: " + str(days), x=10, y=520,
+                                batch=main_batch)
+release_label = pyglet.text.Label(text="version1 alpha", x=10, y=550,
+                                batch=main_batch)
+release_label = pyglet.text.Label(text="build date: 4/10/2020", x=10, y=580,
+                                batch=main_batch)
 game_label = pyglet.text.Label(text="Politically Inappropriate Pre-Release",
                                 x=game_window.width//2,y=game_window.height//2,
                                 anchor_x='center')
@@ -75,7 +82,6 @@ def update(dt):
 
 
 
-
 ###############
 #Event Handling
 ###############
@@ -87,9 +93,12 @@ def on_draw():
     #clear screen first!
     game_window.clear()
 
-    print(menuStatus)
     if menuStatus == True:
         startMenu.draw()
+    else:
+        main_batch.draw()
+        terrorist.draw()
+        game_window.push_handlers(terrorist)
     #draw player
     #draw main_batch
 #    main_batch.draw()
@@ -107,7 +116,12 @@ def on_key_press(symbol, modifiers):
     menuStatus = False
     if menuStatus == False:
         game_window.clear()
-        print("Hi")
+
+    if symbol == key.LEFT:
+        terrorist.image = flipplayer
+
+    if symbol == key.RIGHT:
+        terrorist.image = testplayer
 
     if symbol == key.B:
         print("boom")
