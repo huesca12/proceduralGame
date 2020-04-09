@@ -27,6 +27,9 @@ class Player(physicalobject.PhysicalObject):
         elif symbol == key.RIGHT:
             self.keys['right'] = True
 
+        if symbol == key.M:
+            print(self.PhysicalObject.min_x)
+
     def on_key_release(self, symbol, modifiers):
         if symbol == key.UP:
             self.keys['up'] = False

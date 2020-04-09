@@ -1,9 +1,9 @@
 import pyglet
 from pyglet.window import key
-from game import people
 from game import physicalobject
 from game import music
 from game import player
+days = 0
 #make game window
 game_window = pyglet.window.Window(800,600)
 #define where to find resources
@@ -15,18 +15,15 @@ pyglet.resource.reindex()
 main_batch = pyglet.graphics.Batch()
 
 #create a resource object from corresponding image
+menu = pyglet.resource.image("menu.png")
 ground = pyglet.resource.image("groundProcedural.png")
-testplayer = pyglet.resource.image("test-player.png")
-person = pyglet.resource.image("test-person.png")
+testplayer = pyglet.resource.image("player.png")
 
 #grab music
 theme = pyglet.resource.media("death.wav")
 
 #grab effect sounds
 boom = pyglet.resource.media("8bit_bomb_explosion.wav")
-
-#start music
-music.playMusic(theme)
 
 #a function to anchor images at their center as to be able to rotate them
 #not terribly relevant to our purposes
@@ -41,24 +38,25 @@ center_image(testplayer)
 #which is child of Sprite to access motion styff
 #physicalobject.PhysicalObject(etc.) --> make player Player object
 #which is child of PhysicalObject to access player control
+floor = pyglet.sprite.Sprite(img=ground, x=0, y=0, batch=main_batch)
 terrorist = player.Player(img=testplayer, x=400, y=300,
                                        batch=main_batch)
-floor = pyglet.sprite.Sprite(img=ground, x=0, y=0, batch=main_batch)
-peopleList = people.spawn(4,person,main_batch)
 
 #game_window handles events
 game_window.push_handlers(terrorist)
 
 #make player into list of itself to concatenate into game_objects module; they
 #must all be an instance of or child of PhysicalObject
-game_objects = peopleList + [terrorist]
+game_objects = [terrorist]
 
 #get some labels going; add to main batch
-score_label = pyglet.text.Label(text="Casualties: 0", x=10, y=460)
+score_label = pyglet.text.Label(text="Days: " + str(days), x=10, y=460)
 game_label = pyglet.text.Label(text="Politically Inappropriate Pre-Release",
                                 x=game_window.width//2,y=game_window.height//2,
                                 anchor_x='center')
                                 #centered with anchor_x
+
+
 
 ################
 #Update Handling
@@ -75,16 +73,17 @@ def update(dt):
 
 #redraws when appropriate; the @game_window.event decorator lets the Window
 #know the following is an event handler
-@game_window.event
-def on_draw():
+#@game_window.event
+#def on_draw():
     #clear screen first!
-    game_window.clear()
+#    game_window.clear()
 
+    #draw player
     #draw main_batch
-    main_batch.draw()
+#    main_batch.draw()
     #draw text
-    score_label.draw()
-    game_label.draw()
+#    score_label.draw()
+#    game_label.draw()
 
 #key press event manager for music
 def on_key_press(symbol, modifiers):
