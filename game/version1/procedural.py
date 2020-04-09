@@ -3,6 +3,7 @@ from pyglet.window import key
 from game import physicalobject
 from game import music
 from game import player
+from game import mainMenu
 days = 0
 #make game window
 game_window = pyglet.window.Window(800,600)
@@ -34,11 +35,13 @@ def center_image(image):
 #center player
 center_image(testplayer)
 
+#make stuff drawable sprites
 #player should be instance of Sprite subclass --> make player PhysicalObject
 #which is child of Sprite to access motion styff
 #physicalobject.PhysicalObject(etc.) --> make player Player object
 #which is child of PhysicalObject to access player control
 floor = pyglet.sprite.Sprite(img=ground, x=0, y=0, batch=main_batch)
+startMenu = pyglet.sprite.Sprite(img=menu, x=0, y=0)
 terrorist = player.Player(img=testplayer, x=400, y=300,
                                        batch=main_batch)
 
@@ -56,7 +59,10 @@ game_label = pyglet.text.Label(text="Politically Inappropriate Pre-Release",
                                 anchor_x='center')
                                 #centered with anchor_x
 
-
+#start game
+menuState = mainMenu.startMenu(startMenu, game_window)
+#start music
+music.playMusic(theme)
 
 ################
 #Update Handling
@@ -66,6 +72,7 @@ game_label = pyglet.text.Label(text="Politically Inappropriate Pre-Release",
 def update(dt):
     for obj in game_objects:
         obj.update(dt)
+
 
 ###############
 #Event Handling
