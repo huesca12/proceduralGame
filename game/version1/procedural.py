@@ -3,7 +3,7 @@ from pyglet.window import key
 from game import physicalobject
 from game import music
 from game import player
-days = 0
+days = 0.0
 #make game window
 game_window = pyglet.window.Window(800,600)
 #define where to find resources
@@ -22,6 +22,7 @@ flipplayer = pyglet.resource.image("player-flip.png")
 
 #grab music
 theme = pyglet.resource.media("death.wav")
+victory = pyglet.resource.media("victory.wav")
 
 #grab effect sounds
 boom = pyglet.resource.media("8bit_bomb_explosion.wav")
@@ -58,17 +59,56 @@ score_label = pyglet.text.Label(text="Days: " + str(days), x=10, y=520,
                                 batch=main_batch)
 release_label = pyglet.text.Label(text="version1 alpha", x=10, y=550,
                                 batch=main_batch)
-release_label = pyglet.text.Label(text="build date: 4/10/2020", x=10, y=580,
+date_label = pyglet.text.Label(text="build date: 4/10/2020", x=10, y=580,
                                 batch=main_batch)
-game_label = pyglet.text.Label(text="Politically Inappropriate Pre-Release",
+game_label = pyglet.text.Label(text="Press 'S' to surrender your freedom",
                                 x=game_window.width//2,y=game_window.height//2,
                                 anchor_x='center')
                                 #centered with anchor_x
+surrender_label = pyglet.text.Label(text="You Surrendered",
+                                x=game_window.width//2,y=450,
+                                anchor_x='center', font_size=36)
+                                #centered with anchor_x
+lasted_label = pyglet.text.Label(text="You Lasted: ",
+                                x=game_window.width//2,y=350,
+                                anchor_x='center', font_size=20)
+                                #centered with anchor_x
+days_label = pyglet.text.Label(text=str(days)+" days",
+                                x=game_window.width//2,y=300,
+                                anchor_x='center', font_size=15)
+                                #centered with anchor_x
+time_label = pyglet.text.Label(text="",
+                                x=game_window.width//2,y=250,
+                                anchor_x='center', font_size=15)
+                                #centered with anchor_x
+
+
+#timer
+class Timer:
+
+    def __init__(self):
+        self.label = pyglet.text.Label('00:00', x=10, y=490,batch=main_batch)
+        self.time = 0
+        self.running = False
+        self.label.text = '00:00'
+
+    def update(self, dt):
+        if self.running:
+            self.time += dt
+            self.m, self.s = divmod(self.time, 60)
+            self.label.text = '%02d:%02d' % (self.m, self.s)
+
+timer = Timer()
+
+game_objects.append(timer)
 
 #draw menu
 menuStatus = True
 #start music
 music.playMusic(theme)
+
+canSurrender = False
+surrender = False
 
 ################
 #Update Handling
@@ -78,9 +118,9 @@ music.playMusic(theme)
 def update(dt):
     for obj in game_objects:
         obj.update(dt)
-
-
-
+    if timer.label.text == "00:10":
+        global canSurrender
+        canSurrender = True
 
 ###############
 #Event Handling
@@ -96,9 +136,24 @@ def on_draw():
     if menuStatus == True:
         startMenu.draw()
     else:
+        timer.running=True
+        global days
+        days = timer.time // 86400
+        score_label.text = "Days: " + str(days)
         main_batch.draw()
         terrorist.draw()
         game_window.push_handlers(terrorist)
+        if canSurrender:
+            game_label.draw()
+        if surrender:
+            timer.running=False
+            game_window.clear()
+            surrender_label.draw()
+            lasted_label.draw()
+            days_label.draw()
+            time_label.text=str(timer.m)+" minutes and "+ str(timer.s)+" seconds"
+            time_label.draw()
+
     #draw player
     #draw main_batch
 #    main_batch.draw()
@@ -123,10 +178,16 @@ def on_key_press(symbol, modifiers):
     if symbol == key.RIGHT:
         terrorist.image = testplayer
 
-    if symbol == key.B:
-        print("boom")
-        boom.play()
-        # TODO: fix weird error thrown when you spam B; prob with some sort of timeout
+    if symbol == key.S and canSurrender:
+        music.nextMusic(victory)
+        global surrender
+        surrender = True
+
+    #if symbol == key.B:
+    #    print("boom")
+    #    boom.play()
+    #    # TODO: fix weird error thrown when you spam B; prob with some sort of timeout
+
 
 #makes sure event loop is only entered if this is the executed file
 if __name__ == '__main__':

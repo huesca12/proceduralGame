@@ -8,3 +8,7 @@ player.loop = True
 def playMusic(music):
     player.queue(music)
     player.play()
+
+def nextMusic(music):
+    player.queue(music)
+    player.next_source()
