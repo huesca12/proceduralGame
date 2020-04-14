@@ -81,7 +81,22 @@ time_label = pyglet.text.Label(text="",
                                 x=game_window.width//2,y=250,
                                 anchor_x='center', font_size=15)
                                 #centered with anchor_x
-
+author_label = pyglet.text.Label(text="This game was made by Nicolas Casey",
+                                x=game_window.width//2,y=200,
+                                anchor_x='center')
+                                #centered with anchor_x
+work_label = pyglet.text.Label(text="with 384 lines of code, original artwork, open source music and sound effects, and a lot of math.",
+                                x=game_window.width//2,y=150,
+                                anchor_x='center')
+                                #centered with anchor_x
+source_label = pyglet.text.Label(text='The source code is freely available on github @ https://github.com/huesca12/proceduralGame',
+                                x=game_window.width//2,y=100,
+                                anchor_x='center')
+                                #centered with anchor_x
+solidarity_label = pyglet.text.Label(text='Wuhan jiāyóu!',
+                                x=game_window.width//2,y=50,
+                                anchor_x='center')
+                                #centered with anchor_x
 
 #timer
 class Timer:
@@ -153,6 +168,10 @@ def on_draw():
             days_label.draw()
             time_label.text=str(timer.m)+" minutes and "+ str(timer.s)+" seconds"
             time_label.draw()
+            author_label.draw()
+            work_label.draw()
+            source_label.draw()
+            solidarity_label.draw()
 
     #draw player
     #draw main_batch
